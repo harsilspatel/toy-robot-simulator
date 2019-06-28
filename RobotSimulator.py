@@ -24,15 +24,9 @@ class RobotSimulator:
 		self._is_valid_command = False
 
 	def __eq__(self, other):
-		if isinstance(other, RobotSimulator):
-			return self.table_width == other.table_length and \
-			       self.table_length == other.table_length and \
-			       self.robot_x == other.robot_x and \
-			       self.robot_y == other.robot_y and \
-			       self.robot_direction == other.robot_direction and \
-			       self._is_valid_command == other._is_valid_command
-
-		return False
+		# assuming we only have one robot.
+		return isinstance(other, RobotSimulator) and \
+		       all([getattr(self, attr) == getattr(other, attr) for attr in vars(self)])
 
 	def is_valid_position(self, new_x, new_y):
 		"""To validate if the new robot position is on the tabletop"""
