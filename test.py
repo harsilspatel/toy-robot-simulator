@@ -27,12 +27,6 @@ def test_given(input, expected, capfd):
 	assert captured.out.strip() == expected
 
 
-# def test_place(robo_sim, x, y, dir):
-# 	assert robo_sim.robot_x == x
-# 	assert robo_sim.robot_y == y
-# 	assert robo_sim.robot_direction == dir
-
-
 def generate_command(table_width, table_length):
 	command = random.choice(['PLACE', 'MOVE', 'REPORT', 'LEFT', 'RIGHT'])
 	if command == 'PLACE':
@@ -44,13 +38,13 @@ def generate_command(table_width, table_length):
 
 	return command
 
-
-def test_random(capfd):
+@pytest.mark.parametrize('execution_number', range(100))
+def test_random(capfd, execution_number):
 	robo_sim = RobotSimulator()
 	is_valid = False
 
-	with capfd.disabled():
-		print()
+	# with capfd.disabled():
+	# 	print()
 
 	for _ in range(1_000):
 		prev_robo_sim = copy.deepcopy(robo_sim)
@@ -65,8 +59,8 @@ def test_random(capfd):
 		if not is_valid and operation != 'PLACE':
 			continue
 
-		with capfd.disabled():
-			print(command)
+		# with capfd.disabled():
+		# 	print(command)
 
 		if operation == 'PLACE':
 			x, y, dir = params[1].split(',')
@@ -108,6 +102,23 @@ def test_random(capfd):
 		assert robo_sim._is_valid_command == is_valid
 
 
-
-
+test_with_err1 = '''PLACE 0,0,NORTH
+	PLACE 3,0,3rR03
+	REPORT'''
+test_with_err2 = '''PLACE l337,n00b,NORTH
+	REPORT
+'''
+test_with_err3 = '''PLACE 1,2,EAST
+MOVE
+MOVE
+LEFT
+MOVE
+WRIGHT
+REPORT'''
+@pytest.mark.parametrize("input, expected", [(test_with_err1, '0,0,NORTH'), (test_with_err2, 'None'), (test_with_err3, '3,3,NORTH')])
+def test_exceptions(input, expected, capfd):
+	robo_sim = RobotSimulator()
+	robo_sim.process_input(input)
+	captured = capfd.readouterr()
+	assert captured.out.strip() == expected
 
