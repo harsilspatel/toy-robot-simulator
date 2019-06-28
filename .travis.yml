@@ -1,5 +1,8 @@
 language: python
 
+python:
+  - "3.6"
+
 # command to install dependencies
 install:
   - pip3 install pytest
@@ -7,3 +10,6 @@ install:
 # command to run tests
 script:
   - pytest test.py --capture=fd
+
+# disable sudo to speed up the build
+sudo: false
