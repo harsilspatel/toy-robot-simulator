@@ -20,10 +20,14 @@ class RobotSimulator:
 		self.robot_direction = None
 
 
+	def is_valid(self, new_x, new_y):
+		return 0 <= new_x < self.table_width and 0 <= new_y < self.table_length
+
 	def place(self, x, y, direction):
-		self.robot_x = x
-		self.robot_y = y
-		self.robot_direction = direction
+		if self.is_valid(x, y):
+			self.robot_x = x
+			self.robot_y = y
+			self.robot_direction = direction
 
 
 	def move(self):
@@ -33,11 +37,12 @@ class RobotSimulator:
 		elif (self.robot_direction == Direction.WEST):
 			new_x -= 1
 		elif (self.robot_direction == Direction.NORTH):
-			new _y += 1
+			new_y += 1
 		else:
 			new_y -= 1
 
-		self.robot_x, self.robot_y = new_x, new_y
+		if self.is_valid(new_x, new_y):
+			self.robot_x, self.robot_y = new_x, new_y
 
 
 	def report(self):
