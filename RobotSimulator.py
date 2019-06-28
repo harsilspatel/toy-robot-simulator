@@ -46,4 +46,25 @@ class RobotSimulator:
 
 
 	def report(self):
-		return '{},{},{}'.format(self.robot_x, self.robot_y, self.robot_direction.name)
+		print('{},{},{}'.format(self.robot_x, self.robot_y, self.robot_direction.name))
+
+
+	def parse_command(self, line):
+		params = line.strip().split()
+		command = params[0]
+
+		if command == 'PLACE':
+			x, y, dir = params[1].split(',')
+			self.place(int(x), int(y), Direction[dir.upper()])
+		elif command == 'MOVE':
+			self.move()
+		elif command == 'REPORT':
+			self.report()
+		else:
+			raise TypeError('Invalid command type.')
+
+
+if __name__ == '__main__':
+	r_sim = RobotSimulator()
+	r_sim.place(0, 0, Direction.NORTH)
+	r_sim.report()
