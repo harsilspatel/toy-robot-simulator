@@ -19,11 +19,14 @@ class RobotSimulator:
 		self.robot_y = None
 		self.robot_direction = None
 
+		self._is_valid_command = False
+
 
 	def is_valid(self, new_x, new_y):
 		return 0 <= new_x < self.table_width and 0 <= new_y < self.table_length
 
 	def place(self, x, y, direction):
+		self._is_valid_command = True
 		if self.is_valid(x, y):
 			self.robot_x = x
 			self.robot_y = y
@@ -31,6 +34,9 @@ class RobotSimulator:
 
 
 	def move(self):
+		if not self._is_valid_command:
+			return
+
 		new_x, new_y = self.robot_x, self.robot_y
 		if (self.robot_direction == Direction.EAST):
 			new_x += 1
@@ -46,6 +52,8 @@ class RobotSimulator:
 
 
 	def report(self):
+		if not self._is_valid_command:
+			return
 		print('{},{},{}'.format(self.robot_x, self.robot_y, self.robot_direction.name))
 
 
@@ -66,5 +74,12 @@ class RobotSimulator:
 
 if __name__ == '__main__':
 	r_sim = RobotSimulator()
-	r_sim.place(0, 0, Direction.NORTH)
-	r_sim.report()
+
+	test1 = '''MOVE
+PLACE 0,0,NORTH
+MOVE
+REPORT'''.split('\n')
+	for command in test1:
+		r_sim.parse_command(command)
+
+
