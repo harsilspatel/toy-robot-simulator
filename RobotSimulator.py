@@ -74,8 +74,12 @@ class RobotSimulator:
 		command = params[0]
 
 		if command == 'PLACE':
-			x, y, dir = params[1].split(',')
-			self.place(int(x), int(y), Direction[dir.upper()])
+			try:
+				x, y, dir = params[1].split(',')
+				self.place(int(x), int(y), Direction[dir.upper()])
+			except Exception as e:
+				pass
+				# raise Exception('Error while parsing\n{}'.format(e))
 		elif command == 'MOVE':
 			self.move()
 		elif command == 'REPORT':
@@ -88,7 +92,8 @@ class RobotSimulator:
 			if self._is_valid_command:
 				self.robot_direction = Direction((self.robot_direction.value + 1) % 4)
 		else:
-			raise TypeError('Invalid command {}'.format(line))
+			pass
+			# raise TypeError('Invalid command {}'.format(line))
 
 
 	def process_input(self, input):
