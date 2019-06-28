@@ -1,10 +1,10 @@
 from enum import Enum
 
 class Direction(Enum):
-	EAST = 0
-	WEST = 1
-	NORTH = 2
-	SOUTH = 3
+	NORTH = 0
+	EAST = 1
+	SOUTH = 2
+	WEST = 3
 
 
 class RobotSimulator:
@@ -54,7 +54,7 @@ class RobotSimulator:
 	def report(self):
 		if not self._is_valid_command:
 			return
-		print('{},{},{}'.format(self.robot_x, self.robot_y, self.robot_direction.name))
+		return '{},{},{}'.format(self.robot_x, self.robot_y, self.robot_direction.name)
 
 
 	def parse_command(self, line):
@@ -67,9 +67,19 @@ class RobotSimulator:
 		elif command == 'MOVE':
 			self.move()
 		elif command == 'REPORT':
-			self.report()
+			output = self.report()
+			print(output)
+		elif command == 'LEFT':
+			self.robot_direction = Direction((self.robot_direction.value - 1) % 4)
+		elif command == 'RIGHT':
+			self.robot_direction = Direction((self.robot_direction.value + 1) % 4)
 		else:
-			raise TypeError('Invalid command type.')
+			raise TypeError('Invalid command {}'.format(line))
+
+
+	def process_input(self, input):
+		for command in input.strip().split('\n'):
+			self.parse_command(command)
 
 
 if __name__ == '__main__':
@@ -78,8 +88,8 @@ if __name__ == '__main__':
 	test1 = '''MOVE
 PLACE 0,0,NORTH
 MOVE
-REPORT'''.split('\n')
-	for command in test1:
-		r_sim.parse_command(command)
+REPORT'''
+
+	r_sim.process_input(test1)
 
 
