@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Direction(Enum):
 	NORTH = 0
 	EAST = 1
@@ -21,13 +22,24 @@ class RobotSimulator:
 
 		self._is_valid_command = False
 
+	def __eq__(self, other):
+		if isinstance(other, RobotSimulator):
+			return self.table_width == other.table_length and \
+			       self.table_length == other.table_length and \
+			       self.robot_x == other.robot_x and \
+			       self.robot_y == other.robot_y and \
+			       self.robot_direction == other.robot_direction and \
+			       self._is_valid_command == other._is_valid_command
 
-	def is_valid(self, new_x, new_y):
+		return False
+
+
+	def is_valid_position(self, new_x, new_y):
 		return 0 <= new_x < self.table_width and 0 <= new_y < self.table_length
 
 	def place(self, x, y, direction):
 		self._is_valid_command = True
-		if self.is_valid(x, y):
+		if self.is_valid_position(x, y):
 			self.robot_x = x
 			self.robot_y = y
 			self.robot_direction = direction
@@ -47,7 +59,7 @@ class RobotSimulator:
 		else:
 			new_y -= 1
 
-		if self.is_valid(new_x, new_y):
+		if self.is_valid_position(new_x, new_y):
 			self.robot_x, self.robot_y = new_x, new_y
 
 
@@ -70,9 +82,11 @@ class RobotSimulator:
 			output = self.report()
 			print(output)
 		elif command == 'LEFT':
-			self.robot_direction = Direction((self.robot_direction.value - 1) % 4)
+			if self._is_valid_command:
+				self.robot_direction = Direction((self.robot_direction.value - 1) % 4)
 		elif command == 'RIGHT':
-			self.robot_direction = Direction((self.robot_direction.value + 1) % 4)
+			if self._is_valid_command:
+				self.robot_direction = Direction((self.robot_direction.value + 1) % 4)
 		else:
 			raise TypeError('Invalid command {}'.format(line))
 
