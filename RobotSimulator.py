@@ -38,11 +38,11 @@ class RobotSimulator:
 		return 0 <= new_x < self.table_width and 0 <= new_y < self.table_length
 
 	def place(self, x, y, direction):
-		self._is_valid_command = True
 		if self.is_valid_position(x, y):
 			self.robot_x = x
 			self.robot_y = y
 			self.robot_direction = direction
+			self._is_valid_command = True
 
 
 	def move(self):
