@@ -115,7 +115,7 @@ LEFT
 MOVE
 WRIGHT
 REPORT'''
-@pytest.mark.parametrize("input, expected", [(test_with_err1, '0,0,NORTH'), (test_with_err2, 'None'), (test_with_err3, '3,3,NORTH')])
+@pytest.mark.parametrize("input, expected", [(test_with_err1, '0,0,NORTH'), (test_with_err2, ''), (test_with_err3, '3,3,NORTH')])
 def test_exceptions(input, expected, capfd):
 	robo_sim = RobotSimulator()
 	robo_sim.process_input(input)

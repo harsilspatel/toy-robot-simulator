@@ -64,9 +64,8 @@ class RobotSimulator:
 
 
 	def report(self):
-		if not self._is_valid_command:
-			return
-		return '{},{},{}'.format(self.robot_x, self.robot_y, self.robot_direction.name)
+		if self._is_valid_command:
+			return '{},{},{}'.format(self.robot_x, self.robot_y, self.robot_direction.name)
 
 
 	def parse_command(self, line):
@@ -84,7 +83,8 @@ class RobotSimulator:
 			self.move()
 		elif command == 'REPORT':
 			output = self.report()
-			print(output)
+			if output:
+				print(output)
 		elif command == 'LEFT':
 			if self._is_valid_command:
 				self.robot_direction = Direction((self.robot_direction.value - 1) % 4)
@@ -100,15 +100,5 @@ class RobotSimulator:
 		for command in input.strip().split('\n'):
 			self.parse_command(command)
 
-
-if __name__ == '__main__':
-	r_sim = RobotSimulator()
-
-	test1 = '''MOVE
-PLACE 0,0,NORTH
-MOVE
-REPORT'''
-
-	r_sim.process_input(test1)
 
 
