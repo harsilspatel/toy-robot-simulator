@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/harsilspatel/toy-robot-simulator.svg?token=yLgWGY7CNm621frWpHzZ&branch=master)](https://travis-ci.com/harsilspatel/toy-robot-simulator)
 
-> A library allows for a simulation of a toy robot moving on a 5 x 5 square tabletop.
+> A library that allows for a simulation of a toy robot moving on a 5 x 5 square tabletop.
 
 #### Please visit the GitHub [repo](https://github.com/harsilspatel/toy-robot-simulator/) for the best experience.
 
