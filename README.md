@@ -26,4 +26,10 @@ Travis CI is employed to test the software updates. Please visit https://about.t
 
 ### Executing the tests
 `pytest test.py --capture=fd` </br>
-We run the pytest with the capture flag so as to capture and test the REPORT commands' outputs.
+We run the pytest with the capture flag so as to capture and test the REPORT commands' outputs. </br>
+
+The code is tested against:
+1. Provided tests and expected outputs (testing only the output).
+2. Hard-coded tests containing erroneous command arguments (testing only the output).
+3. Automatically generated tests that check robot's attributes after executing each command. (testing position, direction and output).
+
